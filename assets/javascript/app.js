@@ -1,12 +1,12 @@
 
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyA-xVk3PolrpsTRTQSPzATxEQZO3_VBp-A",
-    authDomain: "bootcamp-d0dc7.firebaseapp.com",
-    databaseURL: "https://bootcamp-d0dc7.firebaseio.com",
-    projectId: "bootcamp-d0dc7",
-    storageBucket: "bootcamp-d0dc7.appspot.com",
-    messagingSenderId: "679568646175"
+    apiKey: "AIzaSyBDYm-E4nN8eZf0ZqOPCdYJhh0m9pXh4_c",
+    authDomain: "bootcamp-v2-adebb.firebaseapp.com",
+    databaseURL: "https://bootcamp-v2-adebb.firebaseio.com",
+    projectId: "bootcamp-v2-adebb",
+    storageBucket: "bootcamp-v2-adebb.appspot.com",
+    messagingSenderId: "163116769103"
 };
 firebase.initializeApp(config);
 
@@ -17,7 +17,7 @@ var database = firebase.database();
 // Initial values
 var trainName = "";
 var destination = "";
-var trainTime = "";
+var firstTrain = "";
 var trainFrequency = "";
 
 // Capture Button Click
@@ -26,29 +26,31 @@ $("#add-train").on("click", function () {
 
     trainName = $("#trainName-input").val().trim();
     destination = $("#destination-input").val().trim();
-    trainTime = $("#time-input").val().trim();
+    firstTrain = $("#time-input").val().trim();
     trainFrequency = $("#frequency-input").val().trim();
 
-    database.ref().set({
+    //clear input fields after submit
+    $("#trainName-input").val("");
+    $("#destination-input").val("");
+    $("#time-input").val("");
+    $("#frequency-input").val("");
+
+    database.ref().push({
         trainName: trainName,
         destination: destination,
-        trainTime: trainTime,
-        trainFrequency: trainFrequency
+        firstTrain: firstTrain,
+        trainFrequency: trainFrequency,
     });
 });
 
-database.ref().on("value", function (snapshot) {
+database.ref().on("child_added", function (snapshot) {
     console.log(snapshot.val());
-    console.log(snapshot.val().trainName);
-    console.log(snapshot.val().destination);
-    console.log(snapshot.val().trainTime);
-    console.log(snapshot.val().trainFrequency);
+    var trainName = snapshot.val().trainName;
+    var destination = snapshot.val().destination;
+    var firstTrain = snapshot.val().firstTrain;
+    var frequency = snapshot.val().trainFrequency;
 
-    // Change the HTML to reflect
-    $("#trainName-display").text(snapshot.val().trainName);
-    $("#destination-display").text(snapshot.val().destination);
-    $("#trainTime-display").text(snapshot.val().trainTime);
-    $("#frequency-display").text(snapshot.val().trainFrequency);
+    $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + firstTrain + "</td></tr>");
 
     // Handle the errors
 }, function (errorObject) {

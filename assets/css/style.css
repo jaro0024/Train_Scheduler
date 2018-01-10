@@ -4,15 +4,37 @@ html {
     position: relative;
 }
 
-.app-title {
+.app-title, .panel-title, #add-train {
     background-color: #0712a7;
     color: #f8f7fd;
     font-weight: bold;
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+}
+
+.app-title {
     border-bottom: 3px solid #03045e;
 }
 
+.panel-title {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border: solid 2px #03045e;
+    border-radius: 3px;
+    padding-left: 10px;
+}
 
+#train-form {
+    margin-bottom: 80px;
+}
+
+#add-train {
+    border: solid 2px #03045e;
+}
+
+#add-train:hover {
+    background-color: #03045e;
+}
 
 .footer {
     position: fixed;
