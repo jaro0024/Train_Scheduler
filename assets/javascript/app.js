@@ -12,9 +12,8 @@ firebase.initializeApp(config);
 
 // Create a variable to reference the database
 var database = firebase.database();
-// var currentTime = moment();
 
-// Initial values
+// Initial Values
 var trainName = "";
 var trainDestination = "";
 var trainTime = "";
@@ -24,7 +23,7 @@ var trainFrequency = "";
 $("#add-train").on("click", function () {
     event.preventDefault();
 
-    // Grabs user input
+    // Grabs User Input
     trainName = $("#trainName-input").val().trim();
     trainDestination = $("#destination-input").val().trim();
     trainTime = moment($("#time-input").val().trim(), "HH:mm").format("HH:mm");
@@ -48,15 +47,16 @@ $("#add-train").on("click", function () {
     $("#frequency-input").val("");
 });
 
-// Create Firebase event for adding train data to the database and a row in the html when a user adds an entry
+// Create Firebase event for adding train data to the database and a row in the HTML when a user adds an entry
 database.ref().on("child_added", function (snapshot) {
+
     // Store everything into variables
     var trainName = snapshot.val().name;
     var trainDestination = snapshot.val().destination;
     var trainTime = snapshot.val().time;
     var trainFrequency = snapshot.val().frequency;
 
-    // First Time (pushed back 1 year to make sure it comes before current time)
+    // First Train Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
 
     // Current Time
@@ -68,17 +68,17 @@ database.ref().on("child_added", function (snapshot) {
     // Train Time Apart (remainder)
     var timeRemainder = diffTime % trainFrequency;
 
-    // Minute Until Next Train
+    // Minutes Until Next Train
     var minUntilTrain = trainFrequency - timeRemainder;
 
-    // Next Train
+    // Next Train Arrival
     var nextTrain = moment().add(minUntilTrain, "minutes").format("HH:mm");
 
     // Add each train's data into the table
     $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + 
     nextTrain  + "</td><td>" + minUntilTrain + "</td></tr>");
 
-    // Handle the errors
+    // Handle Errors Function
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 
