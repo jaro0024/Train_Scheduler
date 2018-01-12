@@ -4,7 +4,7 @@ html {
     position: relative;
 }
 
-.app-title, .panel-title, #add-train {
+.app-title, .card-header, #add-train {
     background-color: #0712a7;
     color: #f8f7fd;
     font-weight: bold;
@@ -15,10 +15,8 @@ html {
     border-bottom: 3px solid #03045e;
 }
 
-.panel-title {
+.card-header {
     font-size: 20px;
-    margin-top: 30px;
-    margin-bottom: 10px;
     border: solid 2px #03045e;
     border-radius: 3px;
     padding-left: 10px;

@@ -1,4 +1,7 @@
 
+// Ready function
+
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyBDYm-E4nN8eZf0ZqOPCdYJhh0m9pXh4_c",
@@ -27,6 +30,7 @@ $("#add-train").on("click", function () {
     trainName = $("#trainName-input").val().trim();
     destination = $("#destination-input").val().trim();
     firstTrain = $("#time-input").val().trim();
+    // firstTrain = moment($("#time-input").val().trim(),"HH:mm").format("HH:mm");
     trainFrequency = $("#frequency-input").val().trim();
 
     //clear input fields after submit
@@ -50,11 +54,16 @@ database.ref().on("child_added", function (snapshot) {
     var firstTrain = snapshot.val().firstTrain;
     var frequency = snapshot.val().trainFrequency;
 
-    $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + firstTrain + "</td></tr>");
+    // var nextTrain = ;
+    // var minToTrain = ;
+
+    $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td></tr>");
+
+    // "</td><td>" + nextTrain  + "</td><td>" + minToTrain + 
 
     // Handle the errors
 }, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 
-})
+});
 
