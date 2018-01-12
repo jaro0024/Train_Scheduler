@@ -17,15 +17,14 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="row">
-        <div class="col-md-12 app-title">
-            <h1 class="display-3 text-center">Train Scheduler</h1>
-        </div>
+    <!-- Header - Jumbotron -->
+    <div class="jumbotron app-title" align="center">
+        <h1 class="display-4">Train Scheduler</h1>
     </div>
-    <br>
+    
     <!-- Main Content -->
     <div class="container">
+        <!-- Train Schedule Card -->
         <div class="row">
             <div class="col-md-12" id="train-schedule" align="center">
                 <div class="card">
@@ -44,6 +43,7 @@
                                     <th scope="col">Minutes Away</th>
                                 </tr>
                             </thead>
+                            <!-- Where the train information added by user will be appended to -->
                             <tbody>
 
                             </tbody>
@@ -53,6 +53,8 @@
             </div>
         </div>
         <br>
+
+        <!-- Add Train Form Card -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card" id="train-form">
