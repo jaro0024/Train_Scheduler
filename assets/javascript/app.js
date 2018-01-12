@@ -1,7 +1,4 @@
 
-// Ready function
-
-
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyBDYm-E4nN8eZf0ZqOPCdYJhh0m9pXh4_c",
@@ -19,47 +16,67 @@ var database = firebase.database();
 
 // Initial values
 var trainName = "";
-var destination = "";
-var firstTrain = "";
+var trainDestination = "";
+var trainTime = "";
 var trainFrequency = "";
 
-// Capture Button Click
+// Button For Adding Trains
 $("#add-train").on("click", function () {
     event.preventDefault();
 
+    // Grabs user input
     trainName = $("#trainName-input").val().trim();
-    destination = $("#destination-input").val().trim();
-    firstTrain = $("#time-input").val().trim();
-    // firstTrain = moment($("#time-input").val().trim(),"HH:mm").format("HH:mm");
+    trainDestination = $("#destination-input").val().trim();
+    trainTime = moment($("#time-input").val().trim(), "HH:mm").format("HH:mm");
     trainFrequency = $("#frequency-input").val().trim();
+
+    // Creates local "temporary" object for holding train data
+    var train = {
+        name: trainName,
+        destination: trainDestination,
+        time: trainTime,
+        frequency: trainFrequency,
+    };
+
+    // Uploads train data to the database
+    database.ref().push(train);
 
     //clear input fields after submit
     $("#trainName-input").val("");
     $("#destination-input").val("");
     $("#time-input").val("");
     $("#frequency-input").val("");
-
-    database.ref().push({
-        trainName: trainName,
-        destination: destination,
-        firstTrain: firstTrain,
-        trainFrequency: trainFrequency,
-    });
 });
 
+// Create Firebase event for adding train data to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function (snapshot) {
-    console.log(snapshot.val());
-    var trainName = snapshot.val().trainName;
-    var destination = snapshot.val().destination;
-    var firstTrain = snapshot.val().firstTrain;
-    var frequency = snapshot.val().trainFrequency;
+    // Store everything into variables
+    var trainName = snapshot.val().name;
+    var trainDestination = snapshot.val().destination;
+    var trainTime = snapshot.val().time;
+    var trainFrequency = snapshot.val().frequency;
 
-    // var nextTrain = ;
-    // var minToTrain = ;
+    // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
 
-    $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td></tr>");
+    // Current Time
+    var currentTime = moment();
 
-    // "</td><td>" + nextTrain  + "</td><td>" + minToTrain + 
+    // Difference Between Train Times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+
+    // Train Time Apart (remainder)
+    var timeRemainder = diffTime % trainFrequency;
+
+    // Minute Until Next Train
+    var minUntilTrain = trainFrequency - timeRemainder;
+
+    // Next Train
+    var nextTrain = moment().add(minUntilTrain, "minutes").format("HH:mm");
+
+    // Add each train's data into the table
+    $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + 
+    nextTrain  + "</td><td>" + minUntilTrain + "</td></tr>");
 
     // Handle the errors
 }, function (errorObject) {
