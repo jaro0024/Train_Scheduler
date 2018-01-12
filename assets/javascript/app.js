@@ -34,7 +34,7 @@ $("#add-train").on("click", function () {
         name: trainName,
         destination: trainDestination,
         time: trainTime,
-        frequency: trainFrequency,
+        frequency: trainFrequency
     };
 
     // Uploads train data to the database
@@ -70,17 +70,16 @@ database.ref().on("child_added", function (snapshot) {
 
     // Minutes Until Next Train
     var minUntilTrain = trainFrequency - timeRemainder;
-
+    
     // Next Train Arrival
     var nextTrain = moment().add(minUntilTrain, "minutes").format("HH:mm");
-
+    
     // Add each train's data into the table
     $("#train-table>tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + 
     nextTrain  + "</td><td>" + minUntilTrain + "</td></tr>");
 
     // Handle Errors Function
 }, function (errorObject) {
-    console.log("Errors handled: " + errorObject.code);
 
 });
 
