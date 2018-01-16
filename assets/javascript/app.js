@@ -56,8 +56,8 @@ database.ref().on("child_added", function (snapshot) {
     var trainTime = snapshot.val().time;
     var trainFrequency = snapshot.val().frequency;
 
-    // First Train Time (pushed back 1 year to make sure it comes before current time)
-    var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
+    // First Train Time 
+    var firstTimeConverted = moment(trainTime, "HH:mm");
 
     // Current Time
     var currentTime = moment();
