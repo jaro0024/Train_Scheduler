@@ -4,8 +4,14 @@ html {
     overflow-y: scroll;
     position: relative;
 }
+ 
+body {
+    background-image: url(../images/train.jpg); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
 
-.app-title, .card-header, #add-train {
+.app-title, .card-header, #train-form-btn, #add-train {
     background-color: #0712a7;
     color: #f8f7fd;
     font-weight: bold;
@@ -25,6 +31,10 @@ html {
 }
 
 #add-train:hover {
+    background-color: #03045e;
+}
+
+#train-form-btn:hover {
     background-color: #03045e;
 }
 
